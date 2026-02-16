@@ -14,6 +14,8 @@ class AppStore {
         }
     }
 
+    private constructor()
+
     /*
      New in Kotlin 2.3.0
      Equal to
