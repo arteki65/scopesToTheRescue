@@ -17,10 +17,10 @@ class AppStore {
     private constructor()
 
     /*
-     New in Kotlin 2.3.0
-     Equal to
-     private val _city = MutableStateFlow<String>("")
-     val city: StateFlow<String> get() = _city
+         New in Kotlin 2.3.0
+         Equal to
+         private val _city = MutableStateFlow<String>("")
+         val city: StateFlow<String> get() = _city
      */
     val state: StateFlow<AppState>
         field = MutableStateFlow(AppState())
@@ -42,6 +42,15 @@ class AppStore {
                         decimalCounterScreenState =
                             previousState.decimalCounterScreenState.copy(
                                 counterValue = previousState.decimalCounterScreenState.counterValue - action.by,
+                            ),
+                    )
+                }
+
+                is DecimalCounterAction.Multiply -> {
+                    previousState.copy(
+                        decimalCounterScreenState =
+                            previousState.decimalCounterScreenState.copy(
+                                counterValue = previousState.decimalCounterScreenState.counterValue * action.by,
                             ),
                     )
                 }

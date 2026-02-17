@@ -10,4 +10,8 @@ sealed class DecimalCounterAction : Action() {
     data class Decrement(
         val by: Int,
     ) : DecimalCounterAction()
+
+    data class Multiply(
+        val by: Int,
+    ) : DecimalCounterAction()
 }

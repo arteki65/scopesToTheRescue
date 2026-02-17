@@ -26,13 +26,17 @@ import dev.aptewicz.scopestotherescue.R
 import dev.aptewicz.scopestotherescue.app.theme.ScopesToTheRescueTheme
 import dev.aptewicz.scopestotherescue.decimalcounter.domain.DecimalCounterScreenState
 import dev.aptewicz.scopestotherescue.decimalcounter.ui.preview.DecimalCounterScreenPreviewProvider
+import dev.aptewicz.scopestotherescue.library.random.RandomGeneratorImpl
 import dev.aptewicz.scopestotherescue.library.store.AppStore
 
 @Composable
 fun DecimalCounterScreen() {
     val viewModel: DecimalCounterViewModel =
         viewModel {
-            DecimalCounterViewModel(store = AppStore.instance)
+            DecimalCounterViewModel(
+                store = AppStore.instance,
+                randomGenerator = RandomGeneratorImpl(),
+            )
         }
     val state by viewModel.decimalCounterScreenStateFlow.collectAsStateWithLifecycle(
         DecimalCounterScreenState(),
@@ -41,14 +45,20 @@ fun DecimalCounterScreen() {
         state,
         onIncrement = viewModel::onIncrement,
         onDecrement = viewModel::onDecrement,
+        onMultiply = viewModel::onMultiply,
+        onRandomDecrement = viewModel::onRandomDecrement,
+        onRandomIncrement = viewModel::onRandomIncrement,
     )
 }
 
 @Composable
 fun DecimalCounterScreenContent(
     state: DecimalCounterScreenState,
-    onIncrement: (Int) -> Unit,
-    onDecrement: (Int) -> Unit,
+    onIncrement: (Int) -> Unit = {},
+    onDecrement: (Int) -> Unit = {},
+    onMultiply: (Int) -> Unit = {},
+    onRandomIncrement: () -> Unit = {},
+    onRandomDecrement: () -> Unit = {},
 ) {
     ScopesToTheRescueTheme {
         Scaffold(content = { innerPadding ->
@@ -56,6 +66,7 @@ fun DecimalCounterScreenContent(
                 modifier =
                     Modifier
                         .padding(innerPadding)
+                        .padding(horizontal = MaterialTheme.spacing.medium)
                         .fillMaxSize(),
             ) {
                 Column(
@@ -82,9 +93,13 @@ fun DecimalCounterScreenContent(
                             .fillMaxWidth()
                             .padding(bottom = MaterialTheme.spacing.medium),
                     horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
                 ) {
-                    StandardButton("+1", onClick = { onIncrement(1) })
-                    StandardButton("-1", onClick = { onDecrement(1) })
+                    StandardButton("+ 1", onClick = { onIncrement(1) })
+                    StandardButton("- 1", onClick = { onDecrement(1) })
+                    StandardButton("x 2", onClick = { onMultiply(2) })
+                    StandardButton("+ random", onClick = { onRandomIncrement() })
+                    StandardButton("- random", onClick = { onRandomDecrement() })
                 }
             }
         })
@@ -96,5 +111,5 @@ fun DecimalCounterScreenContent(
 fun DecimalCounterScreenPreview(
     @PreviewParameter(DecimalCounterScreenPreviewProvider::class) state: DecimalCounterScreenState,
 ) {
-    DecimalCounterScreenContent(state, onIncrement = {}, onDecrement = {})
+    DecimalCounterScreenContent(state)
 }
