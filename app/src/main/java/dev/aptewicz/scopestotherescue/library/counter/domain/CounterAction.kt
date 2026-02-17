@@ -14,4 +14,6 @@ sealed class CounterAction : Action() {
     data class Multiply(
         val by: Int,
     ) : CounterAction()
+
+    data object Reset : CounterAction()
 }

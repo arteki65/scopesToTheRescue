@@ -7,7 +7,6 @@ import dev.aptewicz.scopestotherescue.library.store.AppStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-// TODO: unit tests
 class BinaryCounterViewModel(
     private val store: AppStore,
 ) : ViewModel() {
@@ -24,5 +23,9 @@ class BinaryCounterViewModel(
 
     fun onDecrement(by: Int) {
         store.dispatchAction(CounterAction.Decrement(by))
+    }
+
+    fun onReset() {
+        store.dispatchAction(CounterAction.Reset)
     }
 }

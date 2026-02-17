@@ -38,4 +38,8 @@ class DecimalCounterViewModel(
     fun onRandomIncrement() {
         store.dispatchAction(CounterAction.Increment(randomGenerator.nextInt()))
     }
+
+    fun onReset() {
+        store.dispatchAction(CounterAction.Reset)
+    }
 }

@@ -55,6 +55,10 @@ class AppStore {
                     )
                 }
 
+                is CounterAction.Reset -> {
+                    AppState()
+                }
+
                 else -> {
                     previousState
                 }

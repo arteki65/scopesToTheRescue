@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -46,6 +47,10 @@ fun DecimalCounterScreen() {
         onRandomDecrement = viewModel::onRandomDecrement,
         onRandomIncrement = viewModel::onRandomIncrement,
     )
+
+    DisposableEffect(Unit) {
+        onDispose { viewModel.onReset() }
+    }
 }
 
 @Composable

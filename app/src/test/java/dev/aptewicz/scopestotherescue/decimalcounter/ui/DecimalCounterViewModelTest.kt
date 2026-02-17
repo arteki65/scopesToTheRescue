@@ -1,15 +1,11 @@
 package dev.aptewicz.scopestotherescue.decimalcounter.ui
 
-import dev.aptewicz.scopestotherescue.library.counter.domain.CounterState
+import dev.aptewicz.scopestotherescue.library.counter.ui.CounterScreenState
 import dev.aptewicz.scopestotherescue.library.random.RandomGenerator
 import dev.aptewicz.scopestotherescue.library.store.AppStore
+import dev.aptewicz.scopestotherescue.recordStateEmissions
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.TestScope
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -18,6 +14,7 @@ import kotlin.test.assertEquals
 class DecimalCounterViewModelTest {
     private val randomGeneratorMock: RandomGenerator = mockk(relaxed = true)
     private lateinit var viewModel: DecimalCounterViewModel
+    private lateinit var stateEmissions: MutableList<CounterScreenState>
 
     @BeforeTest
     fun setupTest() {
@@ -27,22 +24,22 @@ class DecimalCounterViewModelTest {
                 store = AppStore.instance,
                 randomGenerator = randomGeneratorMock,
             )
+        stateEmissions = mutableListOf()
     }
 
     @Test
     fun verifyOnDecrementDecreaseCounterValue() =
         runTest {
-            val stateEmissions = mutableListOf<CounterState>()
             val job =
-                collectState {
-                    viewModel.counterScreenStateFlow.collect { stateEmissions.add(it) }
+                recordStateEmissions(viewModel.counterScreenStateFlow) {
+                    stateEmissions.add(it)
                 }
 
             viewModel.onDecrement(10)
 
             assertEquals(2, stateEmissions.size)
-            assertEquals(0, stateEmissions[0].counterValue)
-            assertEquals(-10, stateEmissions[1].counterValue)
+            assertEquals("0", stateEmissions[0].counterValue)
+            assertEquals("-10", stateEmissions[1].counterValue)
 
             job.cancel()
         }
@@ -50,17 +47,16 @@ class DecimalCounterViewModelTest {
     @Test
     fun verifyOnIncrementIncreaseCounterValue() =
         runTest {
-            val stateEmissions = mutableListOf<CounterState>()
             val job =
-                collectState {
-                    viewModel.counterScreenStateFlow.collect { stateEmissions.add(it) }
+                recordStateEmissions(viewModel.counterScreenStateFlow) {
+                    stateEmissions.add(it)
                 }
 
             viewModel.onIncrement(10)
 
             assertEquals(2, stateEmissions.size)
-            assertEquals(0, stateEmissions[0].counterValue)
-            assertEquals(10, stateEmissions[1].counterValue)
+            assertEquals("0", stateEmissions[0].counterValue)
+            assertEquals("10", stateEmissions[1].counterValue)
 
             job.cancel()
         }
@@ -70,19 +66,18 @@ class DecimalCounterViewModelTest {
         runTest {
             every { randomGeneratorMock.nextInt() } returns 33
 
-            val stateEmissions = mutableListOf<CounterState>()
             val job =
-                collectState {
-                    viewModel.counterScreenStateFlow.collect { stateEmissions.add(it) }
+                recordStateEmissions(viewModel.counterScreenStateFlow) {
+                    stateEmissions.add(it)
                 }
 
             viewModel.onRandomIncrement()
 
             assertEquals(2, stateEmissions.size)
             // init state
-            assertEquals(0, stateEmissions[0].counterValue)
+            assertEquals("0", stateEmissions[0].counterValue)
             // incremented by random (33)
-            assertEquals(33, stateEmissions[1].counterValue)
+            assertEquals("33", stateEmissions[1].counterValue)
 
             job.cancel()
         }
@@ -92,19 +87,18 @@ class DecimalCounterViewModelTest {
         runTest {
             every { randomGeneratorMock.nextInt() } returns 13
 
-            val stateEmissions = mutableListOf<CounterState>()
             val job =
-                collectState {
-                    viewModel.counterScreenStateFlow.collect { stateEmissions.add(it) }
+                recordStateEmissions(viewModel.counterScreenStateFlow) {
+                    stateEmissions.add(it)
                 }
 
             viewModel.onRandomDecrement()
 
             assertEquals(2, stateEmissions.size)
             // init state
-            assertEquals(0, stateEmissions[0].counterValue)
+            assertEquals("0", stateEmissions[0].counterValue)
             // decremented by random (13)
-            assertEquals(-13, stateEmissions[1].counterValue)
+            assertEquals("-13", stateEmissions[1].counterValue)
 
             job.cancel()
         }
@@ -114,10 +108,9 @@ class DecimalCounterViewModelTest {
         runTest {
             every { randomGeneratorMock.nextInt() } returns 13
 
-            val stateEmissions = mutableListOf<CounterState>()
             val job =
-                collectState {
-                    viewModel.counterScreenStateFlow.collect { stateEmissions.add(it) }
+                recordStateEmissions(viewModel.counterScreenStateFlow) {
+                    stateEmissions.add(it)
                 }
 
             viewModel.onIncrement(by = 5)
@@ -125,18 +118,34 @@ class DecimalCounterViewModelTest {
 
             assertEquals(3, stateEmissions.size)
             // init state
-            assertEquals(0, stateEmissions[0].counterValue)
+            assertEquals("0", stateEmissions[0].counterValue)
             // incremented by 5
-            assertEquals(5, stateEmissions[1].counterValue)
+            assertEquals("5", stateEmissions[1].counterValue)
             // multiplied by 5
-            assertEquals(25, stateEmissions[2].counterValue)
+            assertEquals("25", stateEmissions[2].counterValue)
+
+            job.cancel()
+        }
+
+    @Test
+    fun verifyOnResetClearsCounterScreenState() =
+        runTest {
+            val job =
+                recordStateEmissions(viewModel.counterScreenStateFlow) {
+                    stateEmissions.add(it)
+                }
+
+            viewModel.onIncrement(by = 5)
+            viewModel.onReset()
+
+            assertEquals(3, stateEmissions.size)
+            // init state
+            assertEquals("0", stateEmissions[0].counterValue)
+            // incremented by 5
+            assertEquals("5", stateEmissions[1].counterValue)
+            // reset
+            assertEquals("0", stateEmissions[2].counterValue)
 
             job.cancel()
         }
 }
-
-@OptIn(ExperimentalCoroutinesApi::class)
-fun TestScope.collectState(block: suspend () -> Unit): Job =
-    launch(UnconfinedTestDispatcher()) {
-        block()
-    }
