@@ -1,15 +1,16 @@
 package dev.aptewicz.scopestotherescue.decimalcounter.ui.scope
 
-interface DecimalCounterScope {
-    fun onIncrement(by: Int)
+import dev.aptewicz.scopestotherescue.library.counter.ui.scope.DecrementScope
+import dev.aptewicz.scopestotherescue.library.counter.ui.scope.IncrementScope
+import dev.aptewicz.scopestotherescue.library.counter.ui.scope.MultiplyScope
+import dev.aptewicz.scopestotherescue.library.counter.ui.scope.RandomDecrementScope
+import dev.aptewicz.scopestotherescue.library.counter.ui.scope.RandomIncrementScope
+import dev.aptewicz.scopestotherescue.library.counter.ui.scope.ResetScope
 
-    fun onDecrement(by: Int)
-
-    fun onMultiply(by: Int)
-
-    fun onRandomDecrement()
-
-    fun onRandomIncrement()
-
-    fun onReset()
-}
+interface DecimalCounterScope :
+    IncrementScope,
+    DecrementScope,
+    MultiplyScope,
+    RandomDecrementScope,
+    RandomIncrementScope,
+    ResetScope

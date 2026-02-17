@@ -18,9 +18,6 @@ import dev.aptewicz.scopestotherescue.app.theme.ScopesToTheRescueTheme
 import dev.aptewicz.scopestotherescue.binarycounter.ui.preview.BinaryCounterScreenPreviewProvider
 import dev.aptewicz.scopestotherescue.library.counter.ui.CounterDisplay
 import dev.aptewicz.scopestotherescue.library.counter.ui.CounterScreenState
-import dev.aptewicz.scopestotherescue.library.counter.ui.OperationButtonsRow
-import dev.aptewicz.scopestotherescue.library.counter.ui.button.DecrementButton
-import dev.aptewicz.scopestotherescue.library.counter.ui.button.IncrementButton
 import dev.aptewicz.scopestotherescue.library.store.AppStore
 
 @Composable
@@ -62,10 +59,10 @@ fun BinaryCounterScreenContent(
                         .fillMaxSize(),
             ) {
                 CounterDisplay(state)
-                OperationButtonsRow {
+                /*OperationButtonsRow {
                     IncrementButton(incrementBy = 1, onIncrement = onIncrement)
                     DecrementButton(decrementBy = 1, onDecrement = onDecrement)
-                }
+                }*/
             }
         })
     }

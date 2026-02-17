@@ -63,13 +63,13 @@ fun DecimalCounterScope.DecimalCounterScreenContent(state: CounterScreenState) {
             ) {
                 CounterDisplay(state)
                 OperationButtonsRow {
-                    IncrementButton(incrementBy = 1, onIncrement = ::onIncrement)
-                    DecrementButton(decrementBy = 1, onDecrement = ::onDecrement)
-                    IncrementButton(incrementBy = 10, onIncrement = ::onIncrement)
-                    DecrementButton(decrementBy = 10, onDecrement = ::onDecrement)
-                    MultiplyButton(multiplyBy = 2, onMultiply = ::onMultiply)
-                    RandomIncrementButton(onRandomIncrement = ::onRandomIncrement)
-                    RandomDecrementButton(onRandomDecrement = ::onRandomDecrement)
+                    IncrementButton(incrementBy = 1)
+                    DecrementButton(decrementBy = 1)
+                    IncrementButton(incrementBy = 10)
+                    DecrementButton(decrementBy = 10)
+                    MultiplyButton(multiplyBy = 2)
+                    RandomIncrementButton()
+                    RandomDecrementButton()
                 }
             }
         })
