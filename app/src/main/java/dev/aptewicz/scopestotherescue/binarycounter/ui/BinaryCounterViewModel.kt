@@ -1,21 +1,20 @@
-package dev.aptewicz.scopestotherescue.decimalcounter.ui
+package dev.aptewicz.scopestotherescue.binarycounter.ui
 
 import androidx.lifecycle.ViewModel
 import dev.aptewicz.scopestotherescue.library.counter.domain.CounterAction
 import dev.aptewicz.scopestotherescue.library.counter.ui.CounterScreenState
-import dev.aptewicz.scopestotherescue.library.random.RandomGenerator
 import dev.aptewicz.scopestotherescue.library.store.AppStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class DecimalCounterViewModel(
+// TODO: unit tests
+class BinaryCounterViewModel(
     private val store: AppStore,
-    private val randomGenerator: RandomGenerator,
 ) : ViewModel() {
     val counterScreenStateFlow: Flow<CounterScreenState> =
         store.state.map {
             CounterScreenState(
-                counterValue = it.counterState.counterValue.toString(),
+                counterValue = it.counterState.counterValue.toString(2),
             )
         }
 
@@ -25,17 +24,5 @@ class DecimalCounterViewModel(
 
     fun onDecrement(by: Int) {
         store.dispatchAction(CounterAction.Decrement(by))
-    }
-
-    fun onMultiply(by: Int) {
-        store.dispatchAction(CounterAction.Multiply(by))
-    }
-
-    fun onRandomDecrement() {
-        store.dispatchAction(CounterAction.Decrement(randomGenerator.nextInt()))
-    }
-
-    fun onRandomIncrement() {
-        store.dispatchAction(CounterAction.Increment(randomGenerator.nextInt()))
     }
 }

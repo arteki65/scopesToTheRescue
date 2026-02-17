@@ -1,7 +1,7 @@
 package dev.aptewicz.scopestotherescue.library.store
 
-import dev.aptewicz.scopestotherescue.decimalcounter.domain.DecimalCounterScreenState
+import dev.aptewicz.scopestotherescue.library.counter.domain.CounterState
 
 data class AppState(
-    val decimalCounterScreenState: DecimalCounterScreenState = DecimalCounterScreenState(),
+    val counterState: CounterState = CounterState(),
 )

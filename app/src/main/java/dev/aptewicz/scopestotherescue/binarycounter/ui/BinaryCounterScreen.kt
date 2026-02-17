@@ -1,4 +1,4 @@
-package dev.aptewicz.scopestotherescue.decimalcounter.ui
+package dev.aptewicz.scopestotherescue.binarycounter.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,48 +14,38 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dbschenker.mobile.compose.uicomponents.preview.DefaultPreview
 import com.dbschenker.mobile.compose.uicomponents.theme.spacing
 import dev.aptewicz.scopestotherescue.app.theme.ScopesToTheRescueTheme
-import dev.aptewicz.scopestotherescue.decimalcounter.ui.preview.DecimalCounterScreenPreviewProvider
+import dev.aptewicz.scopestotherescue.binarycounter.ui.preview.BinaryCounterScreenPreviewProvider
 import dev.aptewicz.scopestotherescue.library.counter.ui.CounterDisplay
 import dev.aptewicz.scopestotherescue.library.counter.ui.CounterScreenState
 import dev.aptewicz.scopestotherescue.library.counter.ui.OperationButtonsRow
 import dev.aptewicz.scopestotherescue.library.counter.ui.button.DecrementButton
 import dev.aptewicz.scopestotherescue.library.counter.ui.button.IncrementButton
-import dev.aptewicz.scopestotherescue.library.counter.ui.button.MultiplyButton
-import dev.aptewicz.scopestotherescue.library.counter.ui.button.RandomDecrementButton
-import dev.aptewicz.scopestotherescue.library.counter.ui.button.RandomIncrementButton
-import dev.aptewicz.scopestotherescue.library.random.RandomGeneratorImpl
 import dev.aptewicz.scopestotherescue.library.store.AppStore
 
 @Composable
-fun DecimalCounterScreen() {
-    val viewModel: DecimalCounterViewModel =
+fun BinaryCounterScreen() {
+    val viewModel: BinaryCounterViewModel =
         viewModel {
-            DecimalCounterViewModel(
+            BinaryCounterViewModel(
                 store = AppStore.instance,
-                randomGenerator = RandomGeneratorImpl(),
             )
         }
     val state by viewModel.counterScreenStateFlow.collectAsStateWithLifecycle(
         CounterScreenState(),
     )
-    DecimalCounterScreenContent(
-        state,
+
+    BinaryCounterScreenContent(
+        state = state,
         onIncrement = viewModel::onIncrement,
         onDecrement = viewModel::onDecrement,
-        onMultiply = viewModel::onMultiply,
-        onRandomDecrement = viewModel::onRandomDecrement,
-        onRandomIncrement = viewModel::onRandomIncrement,
     )
 }
 
 @Composable
-fun DecimalCounterScreenContent(
+fun BinaryCounterScreenContent(
     state: CounterScreenState,
     onIncrement: (Int) -> Unit = {},
     onDecrement: (Int) -> Unit = {},
-    onMultiply: (Int) -> Unit = {},
-    onRandomIncrement: () -> Unit = {},
-    onRandomDecrement: () -> Unit = {},
 ) {
     ScopesToTheRescueTheme {
         Scaffold(content = { innerPadding ->
@@ -70,11 +60,6 @@ fun DecimalCounterScreenContent(
                 OperationButtonsRow {
                     IncrementButton(incrementBy = 1, onIncrement = onIncrement)
                     DecrementButton(decrementBy = 1, onDecrement = onDecrement)
-                    IncrementButton(incrementBy = 10, onIncrement = onIncrement)
-                    DecrementButton(decrementBy = 10, onDecrement = onDecrement)
-                    MultiplyButton(multiplyBy = 2, onMultiply = onMultiply)
-                    RandomIncrementButton(onRandomIncrement = onRandomIncrement)
-                    RandomDecrementButton(onRandomDecrement = onRandomDecrement)
                 }
             }
         })
@@ -84,7 +69,7 @@ fun DecimalCounterScreenContent(
 @DefaultPreview
 @Composable
 fun DecimalCounterScreenPreview(
-    @PreviewParameter(DecimalCounterScreenPreviewProvider::class) state: CounterScreenState,
+    @PreviewParameter(BinaryCounterScreenPreviewProvider::class) state: CounterScreenState,
 ) {
-    DecimalCounterScreenContent(state)
+    BinaryCounterScreenContent(state)
 }

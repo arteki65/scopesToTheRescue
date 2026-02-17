@@ -1,17 +1,17 @@
-package dev.aptewicz.scopestotherescue.decimalcounter.domain
+package dev.aptewicz.scopestotherescue.library.counter.domain
 
 import dev.aptewicz.scopestotherescue.library.store.Action
 
-sealed class DecimalCounterAction : Action() {
+sealed class CounterAction : Action() {
     data class Increment(
         val by: Int,
-    ) : DecimalCounterAction()
+    ) : CounterAction()
 
     data class Decrement(
         val by: Int,
-    ) : DecimalCounterAction()
+    ) : CounterAction()
 
     data class Multiply(
         val by: Int,
-    ) : DecimalCounterAction()
+    ) : CounterAction()
 }

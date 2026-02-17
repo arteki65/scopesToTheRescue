@@ -1,6 +1,6 @@
 package dev.aptewicz.scopestotherescue.library.store
 
-import dev.aptewicz.scopestotherescue.decimalcounter.domain.DecimalCounterAction
+import dev.aptewicz.scopestotherescue.library.counter.domain.CounterAction
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -28,29 +28,29 @@ class AppStore {
     fun dispatchAction(action: Action) {
         state.update { previousState ->
             when (action) {
-                is DecimalCounterAction.Increment -> {
+                is CounterAction.Increment -> {
                     previousState.copy(
-                        decimalCounterScreenState =
-                            previousState.decimalCounterScreenState.copy(
-                                counterValue = previousState.decimalCounterScreenState.counterValue + action.by,
+                        counterState =
+                            previousState.counterState.copy(
+                                counterValue = previousState.counterState.counterValue + action.by,
                             ),
                     )
                 }
 
-                is DecimalCounterAction.Decrement -> {
+                is CounterAction.Decrement -> {
                     previousState.copy(
-                        decimalCounterScreenState =
-                            previousState.decimalCounterScreenState.copy(
-                                counterValue = previousState.decimalCounterScreenState.counterValue - action.by,
+                        counterState =
+                            previousState.counterState.copy(
+                                counterValue = previousState.counterState.counterValue - action.by,
                             ),
                     )
                 }
 
-                is DecimalCounterAction.Multiply -> {
+                is CounterAction.Multiply -> {
                     previousState.copy(
-                        decimalCounterScreenState =
-                            previousState.decimalCounterScreenState.copy(
-                                counterValue = previousState.decimalCounterScreenState.counterValue * action.by,
+                        counterState =
+                            previousState.counterState.copy(
+                                counterValue = previousState.counterState.counterValue * action.by,
                             ),
                     )
                 }

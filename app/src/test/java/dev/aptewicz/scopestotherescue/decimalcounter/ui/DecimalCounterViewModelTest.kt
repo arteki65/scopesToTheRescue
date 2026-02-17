@@ -1,6 +1,6 @@
 package dev.aptewicz.scopestotherescue.decimalcounter.ui
 
-import dev.aptewicz.scopestotherescue.decimalcounter.domain.DecimalCounterScreenState
+import dev.aptewicz.scopestotherescue.library.counter.domain.CounterState
 import dev.aptewicz.scopestotherescue.library.random.RandomGenerator
 import dev.aptewicz.scopestotherescue.library.store.AppStore
 import io.mockk.every
@@ -32,10 +32,10 @@ class DecimalCounterViewModelTest {
     @Test
     fun verifyOnDecrementDecreaseCounterValue() =
         runTest {
-            val stateEmissions = mutableListOf<DecimalCounterScreenState>()
+            val stateEmissions = mutableListOf<CounterState>()
             val job =
                 collectState {
-                    viewModel.decimalCounterScreenStateFlow.collect { stateEmissions.add(it) }
+                    viewModel.counterScreenStateFlow.collect { stateEmissions.add(it) }
                 }
 
             viewModel.onDecrement(10)
@@ -50,10 +50,10 @@ class DecimalCounterViewModelTest {
     @Test
     fun verifyOnIncrementIncreaseCounterValue() =
         runTest {
-            val stateEmissions = mutableListOf<DecimalCounterScreenState>()
+            val stateEmissions = mutableListOf<CounterState>()
             val job =
                 collectState {
-                    viewModel.decimalCounterScreenStateFlow.collect { stateEmissions.add(it) }
+                    viewModel.counterScreenStateFlow.collect { stateEmissions.add(it) }
                 }
 
             viewModel.onIncrement(10)
@@ -70,10 +70,10 @@ class DecimalCounterViewModelTest {
         runTest {
             every { randomGeneratorMock.nextInt() } returns 33
 
-            val stateEmissions = mutableListOf<DecimalCounterScreenState>()
+            val stateEmissions = mutableListOf<CounterState>()
             val job =
                 collectState {
-                    viewModel.decimalCounterScreenStateFlow.collect { stateEmissions.add(it) }
+                    viewModel.counterScreenStateFlow.collect { stateEmissions.add(it) }
                 }
 
             viewModel.onRandomIncrement()
@@ -92,10 +92,10 @@ class DecimalCounterViewModelTest {
         runTest {
             every { randomGeneratorMock.nextInt() } returns 13
 
-            val stateEmissions = mutableListOf<DecimalCounterScreenState>()
+            val stateEmissions = mutableListOf<CounterState>()
             val job =
                 collectState {
-                    viewModel.decimalCounterScreenStateFlow.collect { stateEmissions.add(it) }
+                    viewModel.counterScreenStateFlow.collect { stateEmissions.add(it) }
                 }
 
             viewModel.onRandomDecrement()
@@ -114,10 +114,10 @@ class DecimalCounterViewModelTest {
         runTest {
             every { randomGeneratorMock.nextInt() } returns 13
 
-            val stateEmissions = mutableListOf<DecimalCounterScreenState>()
+            val stateEmissions = mutableListOf<CounterState>()
             val job =
                 collectState {
-                    viewModel.decimalCounterScreenStateFlow.collect { stateEmissions.add(it) }
+                    viewModel.counterScreenStateFlow.collect { stateEmissions.add(it) }
                 }
 
             viewModel.onIncrement(by = 5)

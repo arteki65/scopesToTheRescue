@@ -1,13 +1,13 @@
-package dev.aptewicz.scopestotherescue.decimalcounter.ui.preview
+package dev.aptewicz.scopestotherescue.binarycounter.ui.preview
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import dev.aptewicz.scopestotherescue.library.counter.ui.CounterScreenState
 
-class DecimalCounterScreenPreviewProvider : PreviewParameterProvider<CounterScreenState> {
+class BinaryCounterScreenPreviewProvider : PreviewParameterProvider<CounterScreenState> {
     private val parameters =
         listOf(
-            "10" to CounterScreenState(counterValue = "10"),
-            "105" to CounterScreenState(counterValue = "105"),
+            "10" to CounterScreenState(counterValue = "1010"),
+            "105" to CounterScreenState(counterValue = "1101001"),
         )
 
     override val values: Sequence<CounterScreenState>
