@@ -25,6 +25,7 @@ import dev.aptewicz.scopestotherescue.library.counter.ui.button.IncrementButton
 import dev.aptewicz.scopestotherescue.library.counter.ui.button.MultiplyButton
 import dev.aptewicz.scopestotherescue.library.counter.ui.button.RandomDecrementButton
 import dev.aptewicz.scopestotherescue.library.counter.ui.button.RandomIncrementButton
+import dev.aptewicz.scopestotherescue.library.counter.ui.button.ResetButton
 import dev.aptewicz.scopestotherescue.library.preview.previewScope
 import dev.aptewicz.scopestotherescue.library.random.RandomGeneratorImpl
 import dev.aptewicz.scopestotherescue.library.store.AppStore
@@ -41,9 +42,7 @@ fun DecimalCounterScreen() {
     val state by viewModel.counterScreenStateFlow.collectAsStateWithLifecycle(
         CounterScreenState(),
     )
-    viewModel.DecimalCounterScreenContent(
-        state,
-    )
+    viewModel.DecimalCounterScreenContent(state)
 
     DisposableEffect(Unit) {
         onDispose { viewModel.onReset() }
@@ -70,6 +69,7 @@ fun DecimalCounterScope.DecimalCounterScreenContent(state: CounterScreenState) {
                     MultiplyButton(multiplyBy = 2)
                     RandomIncrementButton()
                     RandomDecrementButton()
+                    ResetButton()
                 }
             }
         })

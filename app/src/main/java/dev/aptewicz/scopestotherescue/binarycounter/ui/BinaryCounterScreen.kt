@@ -22,6 +22,7 @@ import dev.aptewicz.scopestotherescue.library.counter.ui.CounterScreenState
 import dev.aptewicz.scopestotherescue.library.counter.ui.OperationButtonsRow
 import dev.aptewicz.scopestotherescue.library.counter.ui.button.DecrementButton
 import dev.aptewicz.scopestotherescue.library.counter.ui.button.IncrementButton
+import dev.aptewicz.scopestotherescue.library.counter.ui.button.ResetButtonWithCallback
 import dev.aptewicz.scopestotherescue.library.preview.previewScope
 import dev.aptewicz.scopestotherescue.library.store.AppStore
 
@@ -39,6 +40,7 @@ fun BinaryCounterScreen() {
 
     viewModel.BinaryCounterScreenContent(
         state = state,
+        onReset = viewModel::onReset,
     )
 
     DisposableEffect(Unit) {
@@ -47,7 +49,10 @@ fun BinaryCounterScreen() {
 }
 
 @Composable
-fun BinaryCounterScope.BinaryCounterScreenContent(state: CounterScreenState) {
+fun BinaryCounterScope.BinaryCounterScreenContent(
+    state: CounterScreenState,
+    onReset: () -> Unit = {},
+) {
     ScopesToTheRescueTheme {
         Scaffold(content = { innerPadding ->
             Column(
@@ -61,6 +66,7 @@ fun BinaryCounterScope.BinaryCounterScreenContent(state: CounterScreenState) {
                 OperationButtonsRow {
                     IncrementButton(incrementBy = 1)
                     DecrementButton(decrementBy = 1)
+                    ResetButtonWithCallback(onReset = onReset)
                 }
             }
         })
