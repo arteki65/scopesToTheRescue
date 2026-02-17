@@ -2,6 +2,7 @@ package dev.aptewicz.scopestotherescue.decimalcounter.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -69,40 +70,98 @@ fun DecimalCounterScreenContent(
                         .padding(horizontal = MaterialTheme.spacing.medium)
                         .fillMaxSize(),
             ) {
-                Column(
-                    modifier =
-                        Modifier
-                            .weight(1f)
-                            .fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.counter_value),
-                        style = MaterialTheme.typography.displaySmall,
-                    )
-                    Spacer(Modifier.height(MaterialTheme.spacing.small))
-                    Text(
-                        text = "${state.counterValue}",
-                        style = MaterialTheme.typography.displayMedium,
-                    )
-                }
-                FlowRow(
-                    modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = MaterialTheme.spacing.medium),
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
-                ) {
-                    StandardButton("+ 1", onClick = { onIncrement(1) })
-                    StandardButton("- 1", onClick = { onDecrement(1) })
-                    StandardButton("x 2", onClick = { onMultiply(2) })
-                    StandardButton("+ random", onClick = { onRandomIncrement() })
-                    StandardButton("- random", onClick = { onRandomDecrement() })
-                }
+                CounterDisplay(state)
+                OperationButtons(
+                    onIncrement = onIncrement,
+                    onDecrement = onDecrement,
+                    onMultiply = onMultiply,
+                    onRandomIncrement = onRandomIncrement,
+                    onRandomDecrement = onRandomDecrement,
+                )
             }
         })
+    }
+}
+
+@Composable
+private fun OperationButtons(
+    onIncrement: (Int) -> Unit,
+    onDecrement: (Int) -> Unit,
+    onMultiply: (Int) -> Unit,
+    onRandomIncrement: () -> Unit,
+    onRandomDecrement: () -> Unit,
+) {
+    FlowRow(
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(bottom = MaterialTheme.spacing.medium),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
+    ) {
+        IncrementButton(incrementBy = 1, onIncrement = onIncrement)
+        DecrementButton(decrementBy = 1, onDecrement = onDecrement)
+        IncrementButton(incrementBy = 10, onIncrement = onIncrement)
+        DecrementButton(decrementBy = 10, onDecrement = onDecrement)
+        MultiplyButton(multiplyBy = 2, onMultiply = onMultiply)
+        RandomIncrementButton(onRandomIncrement = onRandomIncrement)
+        RandomDecrementButton(onRandomDecrement = onRandomDecrement)
+    }
+}
+
+@Composable
+private fun IncrementButton(
+    incrementBy: Int,
+    onIncrement: (Int) -> Unit,
+) {
+    StandardButton(label = "+ $incrementBy", onClick = { onIncrement(incrementBy) })
+}
+
+@Composable
+private fun DecrementButton(
+    decrementBy: Int,
+    onDecrement: (Int) -> Unit,
+) {
+    StandardButton(label = "- $decrementBy", onClick = { onDecrement(decrementBy) })
+}
+
+@Composable
+private fun MultiplyButton(
+    multiplyBy: Int,
+    onMultiply: (Int) -> Unit,
+) {
+    StandardButton(label = "x $multiplyBy", onClick = { onMultiply(multiplyBy) })
+}
+
+@Composable
+private fun RandomIncrementButton(onRandomIncrement: () -> Unit) {
+    StandardButton(label = "+ random", onClick = onRandomIncrement)
+}
+
+@Composable
+private fun RandomDecrementButton(onRandomDecrement: () -> Unit) {
+    StandardButton(label = "- random", onClick = onRandomDecrement)
+}
+
+@Composable
+private fun ColumnScope.CounterDisplay(state: DecimalCounterScreenState) {
+    Column(
+        modifier =
+            Modifier
+                .weight(1f)
+                .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ) {
+        Text(
+            text = stringResource(id = R.string.counter_value),
+            style = MaterialTheme.typography.displaySmall,
+        )
+        Spacer(Modifier.height(MaterialTheme.spacing.small))
+        Text(
+            text = "${state.counterValue}",
+            style = MaterialTheme.typography.displayMedium,
+        )
     }
 }
 
