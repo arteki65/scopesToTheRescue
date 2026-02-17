@@ -17,7 +17,7 @@ fun OperationButtonsRow(content: @Composable (FlowRowScope.() -> Unit)) {
             Modifier
                 .fillMaxWidth()
                 .padding(bottom = MaterialTheme.spacing.medium),
-        horizontalArrangement = Arrangement.SpaceEvenly,
+        horizontalArrangement = Arrangement.SpaceBetween,
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
         content = content,
     )

@@ -1,6 +1,7 @@
 package dev.aptewicz.scopestotherescue.decimalcounter.ui
 
 import androidx.lifecycle.ViewModel
+import dev.aptewicz.scopestotherescue.decimalcounter.ui.scope.DecimalCounterScope
 import dev.aptewicz.scopestotherescue.library.counter.domain.CounterAction
 import dev.aptewicz.scopestotherescue.library.counter.ui.CounterScreenState
 import dev.aptewicz.scopestotherescue.library.random.RandomGenerator
@@ -11,7 +12,8 @@ import kotlinx.coroutines.flow.map
 class DecimalCounterViewModel(
     private val store: AppStore,
     private val randomGenerator: RandomGenerator,
-) : ViewModel() {
+) : ViewModel(),
+    DecimalCounterScope {
     val counterScreenStateFlow: Flow<CounterScreenState> =
         store.state.map {
             CounterScreenState(
@@ -19,27 +21,27 @@ class DecimalCounterViewModel(
             )
         }
 
-    fun onIncrement(by: Int) {
+    override fun onIncrement(by: Int) {
         store.dispatchAction(CounterAction.Increment(by))
     }
 
-    fun onDecrement(by: Int) {
+    override fun onDecrement(by: Int) {
         store.dispatchAction(CounterAction.Decrement(by))
     }
 
-    fun onMultiply(by: Int) {
+    override fun onMultiply(by: Int) {
         store.dispatchAction(CounterAction.Multiply(by))
     }
 
-    fun onRandomDecrement() {
+    override fun onRandomDecrement() {
         store.dispatchAction(CounterAction.Decrement(randomGenerator.nextInt()))
     }
 
-    fun onRandomIncrement() {
+    override fun onRandomIncrement() {
         store.dispatchAction(CounterAction.Increment(randomGenerator.nextInt()))
     }
 
-    fun onReset() {
+    override fun onReset() {
         store.dispatchAction(CounterAction.Reset)
     }
 }
