@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class BinaryCounterViewModel(
-    private val store: AppStore,
+    override val store: AppStore,
 ) : ViewModel(),
     BinaryCounterScope {
     val counterScreenStateFlow: Flow<CounterScreenState> =
@@ -18,14 +18,6 @@ class BinaryCounterViewModel(
                 counterValue = it.counterState.counterValue.toString(2),
             )
         }
-
-    override fun onIncrement(by: Int) {
-        store.dispatchAction(CounterAction.Increment(by))
-    }
-
-    override fun onDecrement(by: Int) {
-        store.dispatchAction(CounterAction.Decrement(by))
-    }
 
     fun onReset() {
         store.dispatchAction(CounterAction.Reset)
