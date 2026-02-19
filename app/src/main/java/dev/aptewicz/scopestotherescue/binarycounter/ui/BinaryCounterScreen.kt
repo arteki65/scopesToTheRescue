@@ -16,8 +16,13 @@ import com.dbschenker.mobile.compose.uicomponents.preview.DefaultPreview
 import com.dbschenker.mobile.compose.uicomponents.theme.spacing
 import dev.aptewicz.scopestotherescue.app.theme.ScopesToTheRescueTheme
 import dev.aptewicz.scopestotherescue.binarycounter.ui.preview.BinaryCounterScreenPreviewProvider
+import dev.aptewicz.scopestotherescue.binarycounter.ui.scope.BinaryCounterScope
 import dev.aptewicz.scopestotherescue.library.counter.ui.CounterDisplay
 import dev.aptewicz.scopestotherescue.library.counter.ui.CounterScreenState
+import dev.aptewicz.scopestotherescue.library.counter.ui.OperationButtonsRow
+import dev.aptewicz.scopestotherescue.library.counter.ui.button.DecrementButton
+import dev.aptewicz.scopestotherescue.library.counter.ui.button.IncrementButton
+import dev.aptewicz.scopestotherescue.library.preview.previewScope
 import dev.aptewicz.scopestotherescue.library.store.AppStore
 
 @Composable
@@ -32,11 +37,7 @@ fun BinaryCounterScreen() {
         CounterScreenState(),
     )
 
-    BinaryCounterScreenContent(
-        state = state,
-        onIncrement = viewModel::onIncrement,
-        onDecrement = viewModel::onDecrement,
-    )
+    viewModel.BinaryCounterScreenContent(state = state)
 
     DisposableEffect(Unit) {
         onDispose { viewModel.onReset() }
@@ -44,11 +45,7 @@ fun BinaryCounterScreen() {
 }
 
 @Composable
-fun BinaryCounterScreenContent(
-    state: CounterScreenState,
-    onIncrement: (Int) -> Unit = {},
-    onDecrement: (Int) -> Unit = {},
-) {
+fun BinaryCounterScope.BinaryCounterScreenContent(state: CounterScreenState) {
     ScopesToTheRescueTheme {
         Scaffold(content = { innerPadding ->
             Column(
@@ -59,10 +56,10 @@ fun BinaryCounterScreenContent(
                         .fillMaxSize(),
             ) {
                 CounterDisplay(state)
-                /*OperationButtonsRow {
-                    IncrementButton(incrementBy = 1, onIncrement = onIncrement)
-                    DecrementButton(decrementBy = 1, onDecrement = onDecrement)
-                }*/
+                OperationButtonsRow {
+                    IncrementButton(incrementBy = 1)
+                    DecrementButton(decrementBy = 1)
+                }
             }
         })
     }
@@ -73,5 +70,5 @@ fun BinaryCounterScreenContent(
 fun DecimalCounterScreenPreview(
     @PreviewParameter(BinaryCounterScreenPreviewProvider::class) state: CounterScreenState,
 ) {
-    BinaryCounterScreenContent(state)
+    previewScope<BinaryCounterScope>().BinaryCounterScreenContent(state)
 }
