@@ -2,7 +2,6 @@ package dev.aptewicz.scopestotherescue.binarycounter.ui
 
 import androidx.lifecycle.ViewModel
 import dev.aptewicz.scopestotherescue.binarycounter.ui.scope.BinaryCounterScope
-import dev.aptewicz.scopestotherescue.library.counter.domain.CounterAction
 import dev.aptewicz.scopestotherescue.library.counter.ui.CounterScreenState
 import dev.aptewicz.scopestotherescue.library.store.AppStore
 import kotlinx.coroutines.flow.Flow
@@ -18,8 +17,4 @@ class BinaryCounterViewModel(
                 counterValue = it.counterState.counterValue.toString(2),
             )
         }
-
-    fun onReset() {
-        store.dispatchAction(CounterAction.Reset)
-    }
 }
